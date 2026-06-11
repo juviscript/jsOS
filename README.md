@@ -4,6 +4,8 @@ A portfolio site built as an interactive desktop environment using Vue 3, TypeSc
 
 Instead of presenting my work in a traditional scrolling layout, this project recreates the feeling of exploring a personal operating system. Visitors can open projects, browse certifications, view my resume, interact with widgets, and navigate a mobile version of the experience depending on screen size.
 
+![jsOS desktop preview](src/assets/project-previews/jsos-desktop-screen.png)
+
 ## Highlights
 
 - Custom desktop-style portfolio experience with icons, taskbar behavior, widgets, and app windows
