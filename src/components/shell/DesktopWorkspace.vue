@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { computed, nextTick, ref, watch } from "vue";
+import { computed, nextTick, onMounted, ref, watch } from "vue";
 import DesktopIcon from "./DesktopIcon.vue";
 import Taskbar from "./Taskbar.vue";
 import AppWindow from "./AppWindow.vue";
+import NollieCompanion from "./NollieCompanion.vue";
 import ExplorerApp from "../apps/ExplorerApp.vue";
 import resumePdf from "../../assets/Juvilane Panaguiton - Resume (June 2025).pdf";
 import BrowserApp from "../apps/BrowserApp.vue";
@@ -23,6 +24,7 @@ const {
 	openDesktopBrowserWindow,
 	openDesktopProjectBrowserWindow,
 	openDesktopProjectWindow,
+	openDesktopNollieBotWindow,
 } = useWorkspaceState();
 
 const desktopElement = ref<HTMLElement | null>(null);
@@ -36,6 +38,10 @@ const windowsInTabOrder = computed(() =>
 );
 
 const activeVisibleWindowId = computed(() => windowsInTabOrder.value.find(window => !window.isMinimized)?.id ?? null);
+
+onMounted(() => {
+	openDesktopNollieBotWindow();
+});
 
 watch(activeVisibleWindowId, async nextWindowId => {
 	await nextTick();
@@ -71,7 +77,7 @@ watch(activeVisibleWindowId, async nextWindowId => {
 				@open="openDesktopApp" />
 		</div>
 
-		<WidgetDeck surface="desktop" title="Widgets" description="Workspace Shelf" class="desktop-widget-deck" />
+		<WidgetDeck surface="desktop" title="" description="" class="desktop-widget-deck" />
 
 		<AppWindow
 			v-for="app in windowsInTabOrder"
@@ -91,6 +97,7 @@ watch(activeVisibleWindowId, async nextWindowId => {
 			<ExplorerApp v-else-if="app.id === 'certifications'" id="certifications" url="C:\Users\Juvilane\Certifications" @open-file="openDesktopBrowserWindow" />
 			<ExplorerApp v-else-if="app.id === 'projects'" id="projects" url="C:\Users\Juvilane\Projects" @open-project="openDesktopProjectWindow" />
 			<ProjectApp v-else-if="app.windowType === 'project' && app.projectId" :project-id="app.projectId" @open-url="openDesktopProjectBrowserWindow" />
+			<NollieCompanion v-else-if="app.windowType === 'companion'" :has-visible-desktop-window="hasVisibleDesktopWindow" @open-app="openDesktopApp" />
 			<AboutApp v-else-if="app.id === 'about'" />
 			<ContactApp v-else-if="app.id === 'contact'" />
 			<p v-else-if="app.id === 'recycle-bin'">The Recycle Bin is empty.</p>
