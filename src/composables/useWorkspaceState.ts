@@ -1,11 +1,12 @@
 import { reactive } from "vue";
 import { projects } from "../data/Projects";
 import { desktopApps, type DesktopApp } from "../data/DesktopApps";
+import nollieSpriteSheet from "../assets/nollie-sprite-sheet.png";
 
 export type DesktopOpenWindow = DesktopApp & {
 	isMinimized: boolean;
 	zIndex: number;
-	windowType: "app" | "browser" | "project";
+	windowType: "app" | "browser" | "project" | "companion";
 	url?: string;
 	objectUrl?: string;
 	isPdf?: boolean;
@@ -210,6 +211,28 @@ function openDesktopProjectWindow(projectId: string) {
 	});
 }
 
+function openDesktopNollieBotWindow() {
+	const windowId = "nollie-bot";
+	const existingWindow = workspaceState.desktop.openWindows.find(openWindow => openWindow.id === windowId);
+
+	if (existingWindow) {
+		existingWindow.isMinimized = false;
+		focusDesktopApp(windowId);
+		return;
+	}
+
+	workspaceState.desktop.openWindows.push({
+		id: windowId,
+		label: "Nollie Bot",
+		icon: nollieSpriteSheet,
+		defaultWidth: 440,
+		defaultHeight: 620,
+		isMinimized: false,
+		zIndex: workspaceState.desktop.nextZIndex++,
+		windowType: "companion",
+	});
+}
+
 function openMobileApp(id: string) {
 	workspaceState.mobile.activeAppId = id;
 	bumpRecentMobileApp(id);
@@ -270,6 +293,7 @@ export function useWorkspaceState() {
 		openDesktopBrowserWindow,
 		openDesktopProjectBrowserWindow,
 		openDesktopProjectWindow,
+		openDesktopNollieBotWindow,
 		openMobileApp,
 		closeMobileApp,
 		openMobileBrowserView,
