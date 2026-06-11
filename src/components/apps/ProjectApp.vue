@@ -23,6 +23,19 @@ function selectScreenshot(index: number) {
 	activeScreenshotIndex.value = index;
 }
 
+function handleProjectPreviewClick(event: MouseEvent) {
+	if (!selectedProject.value?.url) {
+		return;
+	}
+
+	if (selectedProject.value.openInNewTab) {
+		return;
+	}
+
+	event.preventDefault();
+	emit("open-url", selectedProject.value.id, selectedProject.value.url, selectedProject.value.name);
+}
+
 watch(() => props.projectId, () => {
 	activeScreenshotIndex.value = 0;
 }, { immediate: true });
@@ -62,7 +75,7 @@ watch(() => props.projectId, () => {
 			</div>
 
 			<div class="project-quick-links">
-				<a v-if="selectedProject.url" :href="selectedProject.url" target="_blank" rel="noopener" class="project-link" @click.prevent="emit('open-url', selectedProject.id, selectedProject.url, selectedProject.name)"> Preview Project </a>
+				<a v-if="selectedProject.url" :href="selectedProject.url" target="_blank" rel="noopener" class="project-link" @click="handleProjectPreviewClick"> Preview Project </a>
 				<a v-if="selectedProject.repositoryUrl" :href="selectedProject.repositoryUrl" target="_blank" rel="noopener" class="project-link">View Repository</a>
 			</div>
 		</div>
@@ -88,12 +101,11 @@ watch(() => props.projectId, () => {
 .project-top-container {
 	display: flex;
 	flex-direction: row;
-	align-items: flex-start;
+	align-items: stretch;
 	gap: 0.85rem;
-	margin: auto;
 	width: 100%;
-	flex-grow: 1;
-	min-height: 0;
+	flex: 1 1 auto;
+	min-height: 20rem;
 }
 
 .project-bottom-container {
@@ -103,11 +115,13 @@ watch(() => props.projectId, () => {
 	padding: 1rem;
 	border-radius: var(--radius-lg);
 	background-color: var(--color-surface-strong);
+	flex: 0 0 auto;
 }
 
 .project-preview-image {
 	max-width: 100%;
-	max-height: 100%;
+	height: 100%;
+	min-height: 20rem;
 	width: 100%;
 	object-fit: contain;
 	border-radius: var(--radius-md);
@@ -191,6 +205,13 @@ watch(() => props.projectId, () => {
 
 .project-description {
 	line-height: 1.5;
+	max-height: 8.5rem;
+	overflow-y: auto;
+	padding-right: 0.35rem;
+}
+
+.project-description p {
+	margin: 0;
 }
 
 .project-quick-links {
@@ -231,6 +252,7 @@ watch(() => props.projectId, () => {
 
 	.project-top-container {
 		flex-direction: column;
+		min-height: 0;
 	}
 
 	.project-preview-selector {
@@ -240,6 +262,17 @@ watch(() => props.projectId, () => {
 		padding-right: 0;
 		justify-content: flex-start;
 		flex-wrap: wrap;
+	}
+
+	.project-preview-image {
+		min-height: 14rem;
+		height: auto;
+	}
+
+	.project-description {
+		max-height: none;
+		overflow: visible;
+		padding-right: 0;
 	}
 
 	.project-quick-links {

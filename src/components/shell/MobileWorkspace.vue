@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, nextTick, onBeforeUnmount, ref } from "vue";
 import { desktopApps } from "../../data/DesktopApps";
-import resumePdf from "../../assets/Juvilane Panaguiton - Resume (June 2025).pdf";
+import resumePdf from "../../assets/Juvilane Huntsman - Resume (Updated 05-26).pdf";
 import calendarDockIcon from "../../assets/mobile-icons/calendar-icon.gif";
 import messagesDockIcon from "../../assets/mobile-icons/messages-icon.png";
 import photosDockIcon from "../../assets/mobile-icons/photos-icon.png";

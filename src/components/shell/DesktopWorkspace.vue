@@ -5,7 +5,7 @@ import Taskbar from "./Taskbar.vue";
 import AppWindow from "./AppWindow.vue";
 import NollieCompanion from "./NollieCompanion.vue";
 import ExplorerApp from "../apps/ExplorerApp.vue";
-import resumePdf from "../../assets/Juvilane Panaguiton - Resume (June 2025).pdf";
+import resumePdf from "../../assets/Juvilane Huntsman - Resume (Updated 05-26).pdf";
 import BrowserApp from "../apps/BrowserApp.vue";
 import ProjectApp from "../apps/ProjectApp.vue";
 import AboutApp from "../apps/AboutApp.vue";
